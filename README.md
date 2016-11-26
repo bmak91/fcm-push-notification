@@ -22,14 +22,14 @@ Injectable service library to send push notifications using FCM from an ASP.Net 
 
 		services.AddDbContext<NotifServerDbContext>(options =>
 			{
-				options.UseSqlServer(\*_CONNECTION_STRING_\*, builder =>
+				options.UseSqlServer(CONNECTION_STRING, builder =>
 				{
-					builder.MigrationsAssembly(\*_ASSEMBLY_NAME_\*);
+					builder.MigrationsAssembly(ASSEMBLY_NAME);
 				});
 			});
 
 		services.AddFCMPushNotificationService(options => {
-			options.FCMServerToken = \*_FCM_SERVER_TOKEN_\*;
+			options.FCMServerToken = FCM_SERVER_TOKEN;
 		});
 
 		...
@@ -42,7 +42,7 @@ Injectable service library to send push notifications using FCM from an ASP.Net 
 
 	- *_ASSEMBLY_NAME_*: This library will create a UserDeviceTokens table in your database using code migrations. Since your project and the library each belong to a different assembly, you need to pass your assembly name for it to work. You can use `nameof(_SOLUTION_NAME_)`	if you don't want to hardcode it.
 
-	- *_FCM_SERVER_TOKEN*: After creating your Firebase project, you can find your server token by going to Project Settings > Cloud Messaging in the console.
+	- *_FCM_SERVER_TOKEN_*: After creating your Firebase project, you can find your server token by going to Project Settings > Cloud Messaging in the console.
 
 - After making sure your project compiles, apply the migrations using `dotnet ef database update --context NotifServerDbContext`
 
