@@ -1,15 +1,21 @@
 {
-  "version": "1.0.0-*",
-
+    "version": "0.9.2-beta",
     "dependencies": {
         "Microsoft.EntityFrameworkCore": "1.0.1",
         "NETStandard.Library": "1.6.0",
         "Newtonsoft.Json": "9.0.1"
     },
-
-  "frameworks": {
-    "netstandard1.6": {
-      "imports": "dnxcore50"
+    "frameworks": {
+        "netstandard1.6": {
+            "imports": "dnxcore50"
+        }
+    },
+    "buildOptions": {
+        "xmlDoc": true
+    },
+    "scripts": {
+        "postcompile": [
+            "dotnet pack --no-build --configuration %compile:Configuration%"
+        ]
     }
-  }
 }
