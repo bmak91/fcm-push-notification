@@ -1,9 +1,13 @@
 ﻿using ACB.FCMPushNotifications.Data;
-using ACB.FCMPushNotifications.Models;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using ACB.FCMPushNotifications.Utils;
 
 namespace ACB.FCMPushNotifications
 {
+    /// <summary>
+    /// Push Notification Service interface
+    /// </summary>
     public interface IPushNotificationService
     {
         /// <summary>
@@ -11,7 +15,7 @@ namespace ACB.FCMPushNotifications
         /// </summary>
         /// <param name="request">Define notification content and audience</param>
         /// <returns></returns>
-        Task NotifyAsync(NotificationRequest request);
+        Task<List<NotificationResult>> NotifyAsync(NotificationRequest request);
 
         /// <summary>
         /// Save user device token

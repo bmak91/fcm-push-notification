@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using ACB.FCMPushNotifications.Utils;
 
 namespace ACB.FCMPushNotifications.Models
 {
-    public class FCMResponse
+    internal class FCMResponse
     {
         /// <summary>
         /// Unique ID (number) identifying the multicast message.
@@ -50,22 +48,7 @@ namespace ACB.FCMPushNotifications.Models
             /// <summary>
             /// String specifying the error that occurred when processing the message for the recipient.
             /// </summary>
-            public ResultError? Error { get; set; }
-        }
-
-        public enum ResultError
-        {
-            MissingRegistration,
-            InvalidRegistration,
-            NotRegistered,
-            InvalidPackageName,
-            MismatchSenderId,
-            MessageTooBig,
-            InvalidDataKey,
-            InvalidTtl,
-            Unavailable,
-            InternalServerError,
-            DeviceMessageRateExceeded
+            public NotificationResultError? Error { get; set; }
         }
     }
 }

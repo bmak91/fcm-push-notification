@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace ACB.FCMPushNotifications
 {
+    /// <summary>
+    /// Service class to send push notifications using FCM.
+    /// </summary>
     public class FCMPushNotificationService : IPushNotificationService
     {
         private HttpClient _Http { get; set; }
@@ -20,7 +23,11 @@ namespace ACB.FCMPushNotifications
 
         private string FCMServerToken { get; set; }
 
-        public FCMPushNotificationService(IOptions<PushNotificationServiceOptions> options, NotifServerDbContext db)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public FCMPushNotificationService(IOptions<PushNotificationServiceOptions> options,
+            NotifServerDbContext db)
         {
             if (string.IsNullOrWhiteSpace(options.Value.FCMServerToken))
             {
@@ -38,12 +45,23 @@ namespace ACB.FCMPushNotifications
             _Http.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"key={FCMServerToken}");
         }
 
-        public async Task NotifyAsync(NotificationRequest request)
+        /// <summary>
+        /// Send notification to users
+        /// </summary>
+        public async Task<List<NotificationResult>> NotifyAsync(NotificationRequest request)
         {
-            var userTokens = _db.UserDeviceTokens.Where(ut => request.UserIds.Contains(ut.UserId))
-                                                .ToList();
+            var userTokensQuery = _db.UserDeviceTokens.Where(ut => request.UserIds.Contains(ut.UserId));
+            if (request.LimitByPlatform.HasValue)
+            {
+                userTokensQuery = userTokensQuery.Where(ut => ut.Platform == request.LimitByPlatform.Value);
+            }
 
-            if (userTokens.Count == 0) return;
+            var userTokens = userTokensQuery.ToList();
+
+            if (userTokens.Count == 0)
+            {
+                return new List<NotificationResult>();
+            }
 
             var ttl = request.TimeToLive?.TotalSeconds ?? TimeSpan.FromDays(28).TotalSeconds;
             var notification = new NotificationMessage
@@ -59,10 +77,16 @@ namespace ACB.FCMPushNotifications
                 Data = request.Data
             };
 
-            var jsonPayload = JsonConvert.SerializeObject(notification, Formatting.None, new JsonSerializerSettings
-            {
-                ContractResolver = new SnakeCasePropertyNameContractResolver()
-            });
+            var jsonPayload = await Task.Run(() =>
+                JsonConvert.SerializeObject(
+                    notification,
+                    Formatting.None,
+                    new JsonSerializerSettings
+                    {
+                        ContractResolver = new SnakeCasePropertyNameContractResolver()
+                    }
+                )
+            );
 
             var payload = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
@@ -73,34 +97,39 @@ namespace ACB.FCMPushNotifications
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
-                    if(json.CanonicalIds > 0 || json.Failure > 0)
-                    {
-                        var Tasks = new List<Task>();
-                        for (var i = 0; i < json.Results.Count; i++)
-                        {
-                            var result = json.Results[i];
-                            var userToken = userTokens[i];
-                            if (!string.IsNullOrWhiteSpace(result.RegistrationId))
-                            {                                
-                                Tasks.Add(UnregisterUserAsync(userToken.UserId, userToken.Token));
-                                Tasks.Add(RegisterUserAsync(userToken.UserId, result.RegistrationId, userToken.Platform));
-                            }
-                            else if(result.Error.HasValue)
-                            {
-                                Tasks.Add(HandleResponseError(userToken, result));
-                            }
-                        }
 
-                        Task.WaitAll(Tasks.ToArray());
-                        foreach(var t in Tasks)
+                    var tasks = new List<Task>();
+                    var results = new List<NotificationResult>();
+
+                    for (var i = 0; i < json.Results.Count; i++)
+                    {
+                        var result = json.Results[i];
+                        var userToken = userTokens[i];
+
+                        results.Add(new NotificationResult
                         {
-                            if(t.IsFaulted)
-                            {
-                                throw t.Exception;
-                            }
+                            UserId = userToken.UserId,
+                            Success = !result.Error.HasValue,
+                            Error = result.Error
+                        });
+
+                        if (!string.IsNullOrWhiteSpace(result.RegistrationId))
+                        {
+                            tasks.Add(UnregisterUserAsync(userToken.UserId, userToken.Token));
+                            tasks.Add(
+                                RegisterUserAsync(
+                                    userToken.UserId, result.RegistrationId, userToken.Platform
+                                )
+                            );
+                        }
+                        else if (result.Error.HasValue)
+                        {
+                            tasks.Add(HandleResponseError(userToken, result));
                         }
                     }
-                    break;
+
+                    await Task.WhenAll(tasks.ToArray());
+                    return results;
 
                 case (HttpStatusCode)400:
                     throw new Exception("Invalid JSON");
@@ -116,21 +145,18 @@ namespace ACB.FCMPushNotifications
 
         private Task HandleResponseError(UserDeviceToken userToken, FCMResponse.Result result)
         {
-            switch(result.Error)
+            switch (result.Error)
             {
-                case FCMResponse.ResultError.InvalidRegistration:
-                case FCMResponse.ResultError.NotRegistered:
+                case NotificationResultError.InvalidRegistration:
+                case NotificationResultError.NotRegistered:
                     return UnregisterUserAsync(userToken.UserId, userToken.Token);
-
-                // TODO: Implement handling of below errors
-                case FCMResponse.ResultError.InvalidDataKey:
-                case FCMResponse.ResultError.DeviceMessageRateExceeded:
-                case FCMResponse.ResultError.MessageTooBig:
-                    throw new Exception(result.Error.ToString());
             }
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Save user device token
+        /// </summary>
         public async Task RegisterUserAsync(string userId, string userToken, DevicePlatform platform)
         {
             _db.UserDeviceTokens.Add(new UserDeviceToken
@@ -143,9 +169,13 @@ namespace ACB.FCMPushNotifications
             await _db.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Delete user device token
+        /// </summary>
         public async Task UnregisterUserAsync(string userId, string userToken)
         {
-            var userRegId = _db.UserDeviceTokens.FirstOrDefault(ur => ur.UserId == userId && ur.Token == userToken);
+            var userRegId = _db.UserDeviceTokens.FirstOrDefault(ur => ur.UserId == userId
+                                                                   && ur.Token == userToken);
             if (userRegId != null)
             {
                 _db.UserDeviceTokens.Remove(userRegId);
