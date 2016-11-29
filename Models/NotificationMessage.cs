@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ACB.FCMPushNotifications.Models
 {
@@ -43,6 +42,6 @@ namespace ACB.FCMPushNotifications.Models
         /// <summary>
         /// This parameter specifies the custom key-value pairs of the message's payload.
         /// </summary>
-        public Dictionary<string,string> Data { get; set; }
+        public Dictionary<string, string> Data { get; set; }
     }
 }
