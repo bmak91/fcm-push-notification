@@ -7,7 +7,7 @@ Injectable service library to send push notifications using FCM from an ASP.Net 
 
 ## Setup
 
-* Download the project and include it as a reference in your ASP.Net Core MVC app.
+* Add [the NuGet package](https://www.nuget.org/packages/ACB.FCMPushNotifications) to your project
 
 ## Usage
 
