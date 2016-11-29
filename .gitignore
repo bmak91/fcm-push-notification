@@ -5,3 +5,5 @@
 *.nupkg
 .vs
 .vscode
+*.user
+project.lock.json

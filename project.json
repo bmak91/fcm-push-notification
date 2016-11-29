@@ -1,5 +1,5 @@
 {
-    "version": "0.10.0-*",
+    "version": "1.0.0-*",
     "dependencies": {
         "Microsoft.EntityFrameworkCore": "1.0.1",
         "NETStandard.Library": "1.6.0",
@@ -15,7 +15,7 @@
     },
     "scripts": {
         "postcompile": [
-            "dotnet pack --no-build --version-suffix beta --configuration %compile:Configuration%"
+            "dotnet pack --no-build --configuration %compile:Configuration%" //--version-suffix beta
         ]
     },
     // Nuget Settings
