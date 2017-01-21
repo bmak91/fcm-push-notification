@@ -98,6 +98,10 @@ When FCM sends an updated device token, the service will automatically handle re
 
 ## Release Notes
 
+**v 1.0.1**
+
+- Added a check in `RegisterUserAsync` to avoid a duplicate key exception.
+
 **v 1.0.0**
 
 - This is a breaking change. If you had v 0.9.x betas installed, create a new migration and apply it to the database (this can potentially cause you to lose some data)

@@ -159,14 +159,20 @@ namespace ACB.FCMPushNotifications
         /// </summary>
         public async Task RegisterUserAsync(string userId, string userToken, DevicePlatform platform)
         {
-            _db.UserDeviceTokens.Add(new UserDeviceToken
-            {
-                UserId = userId,
-                Token = userToken,
-                Platform = platform
-            });
+            var isDuplicate = _db.UserDeviceTokens.Any(ur => ur.UserId == userId
+                                                          && ur.Token == userToken);
 
-            await _db.SaveChangesAsync();
+            if (!isDuplicate)
+            {
+                _db.UserDeviceTokens.Add(new UserDeviceToken
+                {
+                    UserId = userId,
+                    Token = userToken,
+                    Platform = platform
+                });
+
+                await _db.SaveChangesAsync();
+            }
         }
 
         /// <summary>
