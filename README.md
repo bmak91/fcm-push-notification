@@ -32,7 +32,7 @@ Task UnregisterUserAsync(string userId, string regToken);
 
 		services.AddDbContext<NotifServerDbContext>(builder =>
 			builder.UseSqlServer(CONNECTION_STRING, options =>
-				builder.MigrationsAssembly(ASSEMBLY_NAME))
+				options.MigrationsAssembly(ASSEMBLY_NAME))
 		);
 
 		services.AddFCMPushNotificationService(options => {
