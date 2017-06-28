@@ -1,4 +1,4 @@
-﻿FCM Push Notifications Service (v 1.0.0)
+﻿FCM Push Notifications Service (v 1.0.1)
 ===
 
 Injectable service library to send push notifications using FCM from an ASP.Net Core MVC Application.
