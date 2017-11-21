@@ -1,7 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ACB.FCMPushNotifications.Data
+﻿
+namespace ACB.FCMPushNotifications.Models
 {
     /// <summary>
     /// Registration token of user device 
@@ -19,7 +17,7 @@ namespace ACB.FCMPushNotifications.Data
         public string Token { get; set; }
 
         /// <summary>
-        /// Device platform. <seealso cref="ACB.FCMPushNotifications.Data.DevicePlatform" >
+        /// Device platform. <seealso cref="ACB.FCMPushNotifications.Models.DevicePlatform" >
         /// See DevicePlatform for supported platforms.</seealso>
         /// </summary>
         public DevicePlatform Platform { get; set; }

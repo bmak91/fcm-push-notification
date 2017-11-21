@@ -1,4 +1,4 @@
-﻿using ACB.FCMPushNotifications.Data;
+﻿using ACB.FCMPushNotifications.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ACB.FCMPushNotifications.EF

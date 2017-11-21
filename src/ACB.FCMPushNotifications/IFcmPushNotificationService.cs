@@ -1,7 +1,7 @@
 ﻿using ACB.FCMPushNotifications.Data;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ACB.FCMPushNotifications.Utils;
+using ACB.FCMPushNotifications.Models;
 
 namespace ACB.FCMPushNotifications
 {

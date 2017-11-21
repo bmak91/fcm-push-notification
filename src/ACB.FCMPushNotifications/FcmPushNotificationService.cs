@@ -1,9 +1,4 @@
-﻿using ACB.FCMPushNotifications.Data;
-using ACB.FCMPushNotifications.Models;
-using ACB.FCMPushNotifications.Utils;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -11,6 +6,10 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using ACB.FCMPushNotifications.Data.Abstractions;
+using ACB.FCMPushNotifications.Models;
+using ACB.FCMPushNotifications.Utils;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace ACB.FCMPushNotifications
 {

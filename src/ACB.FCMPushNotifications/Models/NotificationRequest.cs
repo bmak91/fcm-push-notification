@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ACB.FCMPushNotifications.Data;
 
-namespace ACB.FCMPushNotifications.Utils
+namespace ACB.FCMPushNotifications.Models
 {
     /// <summary>
     /// Describes the notification to be sent. 

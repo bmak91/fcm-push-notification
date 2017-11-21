@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ACB.FCMPushNotifications.Utils;
+using ACB.FCMPushNotifications.Models;
 
 namespace ACB.FCMPushNotifications.Models
 {

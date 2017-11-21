@@ -1,4 +1,4 @@
-namespace ACB.FCMPushNotifications.Utils
+namespace ACB.FCMPushNotifications.Models
 {
     /// <summary>
     /// Notification result error types
