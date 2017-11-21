@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ACB.FCMPushNotifications;
-using ACB.FCMPushNotifications.Data;
-using ACB.FCMPushNotifications.Data.Abstractions;
+﻿using ACB.FCMPushNotifications.Data.Abstractions;
 using ACB.FCMPushNotifications.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,7 +26,7 @@ namespace SampleProject
                     opts => opts.MigrationsAssembly(typeof(Startup).Assembly.GetName().Name)));
 
             services.AddScoped(typeof(IUserDeviceRepository), typeof(UserDeviceRepository));
-            services.AddScoped(typeof(IFcmPushNotificationService), typeof(FcmPushNotificationService));
+            services.AddFCMPushNotificationService(config => config.FCMServerToken = "");
 
             services.AddMvc();
         }

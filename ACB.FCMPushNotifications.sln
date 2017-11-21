@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACB.FCMPushNotifications", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{60E88349-6727-4BD9-84BD-5FB444A2A8CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleProject", "SampleProject\SampleProject.csproj", "{5E8770D1-223C-4468-ADBB-A97DB28BFDC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleProject", "samples\SampleProject\SampleProject.csproj", "{39D21D9B-7617-43FC-B554-F8270CFB711D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +17,12 @@ Global
 		{69114AC6-FC4E-4A09-A8EF-87FB5E33D035}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69114AC6-FC4E-4A09-A8EF-87FB5E33D035}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69114AC6-FC4E-4A09-A8EF-87FB5E33D035}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5E8770D1-223C-4468-ADBB-A97DB28BFDC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E8770D1-223C-4468-ADBB-A97DB28BFDC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E8770D1-223C-4468-ADBB-A97DB28BFDC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E8770D1-223C-4468-ADBB-A97DB28BFDC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39D21D9B-7617-43FC-B554-F8270CFB711D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39D21D9B-7617-43FC-B554-F8270CFB711D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39D21D9B-7617-43FC-B554-F8270CFB711D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39D21D9B-7617-43FC-B554-F8270CFB711D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{5E8770D1-223C-4468-ADBB-A97DB28BFDC0} = {60E88349-6727-4BD9-84BD-5FB444A2A8CE}
+		{39D21D9B-7617-43FC-B554-F8270CFB711D} = {60E88349-6727-4BD9-84BD-5FB444A2A8CE}
 	EndGlobalSection
 EndGlobal
