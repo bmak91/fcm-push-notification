@@ -17,7 +17,7 @@ namespace ACB.FCMPushNotifications
     /// <summary>
     /// Service class to send push notifications using FCM.
     /// </summary>
-    public class FCMPushNotificationService : IFcmPushNotificationService
+    public class FcmPushNotificationService : IFcmPushNotificationService
     {
         private HttpClient _Http { get; set; }
         private readonly IUserDeviceRepository _repo;
@@ -27,7 +27,7 @@ namespace ACB.FCMPushNotifications
         /// <summary>
         /// Constructor
         /// </summary>
-        public FCMPushNotificationService(IOptions<PushNotificationServiceOptions> options,
+        public FcmPushNotificationService(IOptions<PushNotificationServiceOptions> options,
                                           IUserDeviceRepository repo)
         {
             if (string.IsNullOrWhiteSpace(options.Value.FCMServerToken))

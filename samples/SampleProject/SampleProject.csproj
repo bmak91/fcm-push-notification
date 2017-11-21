@@ -18,6 +18,6 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\ACB.FCMPushNotifications.csproj" />
+    <ProjectReference Include="..\..\src\ACB.FCMPushNotifications\ACB.FCMPushNotifications.csproj" />
   </ItemGroup>
 </Project>
