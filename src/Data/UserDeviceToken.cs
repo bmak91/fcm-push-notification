@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ACB.FCMPushNotifications.Data
 {
@@ -15,7 +16,6 @@ namespace ACB.FCMPushNotifications.Data
         /// <summary>
         /// Registration token
         /// </summary>
-        [Key]
         public string Token { get; set; }
 
         /// <summary>

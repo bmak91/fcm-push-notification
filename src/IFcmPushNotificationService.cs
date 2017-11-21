@@ -8,7 +8,7 @@ namespace ACB.FCMPushNotifications
     /// <summary>
     /// Push Notification Service interface
     /// </summary>
-    public interface IPushNotificationService
+    public interface IFcmPushNotificationService
     {
         /// <summary>
         /// Send notification to users

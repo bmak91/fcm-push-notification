@@ -10,16 +10,17 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using ACB.FCMPushNotifications.Data.Abstractions;
 
 namespace ACB.FCMPushNotifications
 {
     /// <summary>
     /// Service class to send push notifications using FCM.
     /// </summary>
-    public class FCMPushNotificationService : IPushNotificationService
+    public class FCMPushNotificationService : IFcmPushNotificationService
     {
         private HttpClient _Http { get; set; }
-        private NotifServerDbContext _db { get; set; }
+        private readonly IUserDeviceRepository _repo;
 
         private string FCMServerToken { get; set; }
 
@@ -27,7 +28,7 @@ namespace ACB.FCMPushNotifications
         /// Constructor
         /// </summary>
         public FCMPushNotificationService(IOptions<PushNotificationServiceOptions> options,
-            NotifServerDbContext db)
+                                          IUserDeviceRepository repo)
         {
             if (string.IsNullOrWhiteSpace(options.Value.FCMServerToken))
             {
@@ -36,7 +37,7 @@ namespace ACB.FCMPushNotifications
 
             FCMServerToken = options.Value.FCMServerToken;
 
-            _db = db;
+            _repo = repo;
 
             _Http = new HttpClient
             {
@@ -50,7 +51,8 @@ namespace ACB.FCMPushNotifications
         /// </summary>
         public async Task<List<NotificationResult>> NotifyAsync(NotificationRequest request)
         {
-            var userTokensQuery = _db.UserDeviceTokens.Where(ut => request.UserIds.Contains(ut.UserId));
+            var userTokensQuery = _repo.GetTokensByUserIds(request.UserIds);
+
             if (request.LimitByPlatform.HasValue)
             {
                 userTokensQuery = userTokensQuery.Where(ut => ut.Platform == request.LimitByPlatform.Value);
@@ -159,19 +161,16 @@ namespace ACB.FCMPushNotifications
         /// </summary>
         public async Task RegisterUserAsync(string userId, string userToken, DevicePlatform platform)
         {
-            var isDuplicate = _db.UserDeviceTokens.Any(ur => ur.UserId == userId
-                                                          && ur.Token == userToken);
+            var isDuplicate = await _repo.GetTokenExistsAsync(userId, userToken);
 
             if (!isDuplicate)
             {
-                _db.UserDeviceTokens.Add(new UserDeviceToken
+                await _repo.AddTokenAsync(new UserDeviceToken
                 {
                     UserId = userId,
                     Token = userToken,
                     Platform = platform
                 });
-
-                await _db.SaveChangesAsync();
             }
         }
 
@@ -180,12 +179,11 @@ namespace ACB.FCMPushNotifications
         /// </summary>
         public async Task UnregisterUserAsync(string userId, string userToken)
         {
-            var userRegId = _db.UserDeviceTokens.FirstOrDefault(ur => ur.UserId == userId
-                                                                   && ur.Token == userToken);
+            var userRegId = await _repo.GetTokenAsync(userId, userToken);
+                
             if (userRegId != null)
             {
-                _db.UserDeviceTokens.Remove(userRegId);
-                await _db.SaveChangesAsync();
+                await _repo.DeleteTokenAsync(userRegId);
             }
         }
     }

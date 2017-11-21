@@ -27,6 +27,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Abstractions\" />
+    <Folder Include="EF\" />
+  </ItemGroup>
   <Target Name="PostcompileScript" AfterTargets="Build">
     <Exec Command="dotnet pack --no-build --configuration $(Configuration)" />
   </Target>

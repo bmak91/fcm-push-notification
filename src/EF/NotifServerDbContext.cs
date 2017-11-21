@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ACB.FCMPushNotifications.Data;
+using Microsoft.EntityFrameworkCore;
 
-namespace ACB.FCMPushNotifications.Data
+namespace ACB.FCMPushNotifications.EF
 {
     /// <summary>
     /// DbContext for PushNotificationService
@@ -13,6 +14,11 @@ namespace ACB.FCMPushNotifications.Data
         public NotifServerDbContext(DbContextOptions options)
             : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserDeviceToken>().HasKey(t => new { t.UserId, t.Token });
         }
 
         /// <summary>

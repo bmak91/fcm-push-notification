@@ -10,11 +10,11 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         /// <summary>
         /// Register and configure scoped FCMPushNotificationService class. 
-        /// Inject using IPushNotificationService interface.
+        /// Inject using IFcmPushNotificationService interface.
         /// </summary>
         public static void AddFCMPushNotificationService(this IServiceCollection services, Action<PushNotificationServiceOptions> configure)
         {
-            services.AddScoped<IPushNotificationService, FCMPushNotificationService>()
+            services.AddScoped<IFcmPushNotificationService, FcmPushNotificationService>()
                 .Configure(configure);
         }
     }
