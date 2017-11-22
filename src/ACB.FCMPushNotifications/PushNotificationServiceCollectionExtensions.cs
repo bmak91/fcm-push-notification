@@ -1,5 +1,7 @@
 ﻿using ACB.FCMPushNotifications;
 using System;
+using ACB.FCMPushNotifications.Data.Abstractions;
+using ACB.FCMPushNotifications.EF;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -14,6 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         public static void AddFCMPushNotificationService(this IServiceCollection services, Action<PushNotificationServiceOptions> configure)
         {
+            services.AddScoped<IUserDeviceRepository, UserDeviceRepository>();
             services.AddScoped<IFcmPushNotificationService, FcmPushNotificationService>()
                 .Configure(configure);
         }
