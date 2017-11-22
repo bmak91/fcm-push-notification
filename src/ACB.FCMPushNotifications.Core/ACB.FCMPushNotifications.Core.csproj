@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Injectable service library to send push notifications using FCM from an ASP.Net Core MVC Application.</Description>
+    <Copyright>Copyright 2016</Copyright>
+    <AssemblyTitle>FCM Push Notifications</AssemblyTitle>
+    <VersionPrefix>1.0.1</VersionPrefix>
+    <Authors>Bassem Makarem</Authors>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>ACB.FCMPushNotifications.Core</AssemblyName>
+    <PackageId>ACB.FCMPushNotifications.Core</PackageId>
+    <PackageTags>FCM;ASP.Net;Core;MVC;Library;C#;iOS;Android;Notifications</PackageTags>
+    <PackageProjectUrl>https://github.com/bmak91/fcm-push-notification</PackageProjectUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/bmak91/fcm-push-notification</RepositoryUrl>
+    <NetStandardImplicitPackageVersion>2.0.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <PackOnBuild>true</PackOnBuild>
+    <ReleaseVersion>2.0</ReleaseVersion>
+    <SynchReleaseVersion>false</SynchReleaseVersion>
+    <PackageVersion>2.0</PackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <LangVersion>Latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <LangVersion>Latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.0" />
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Abstractions\" />
+  </ItemGroup>
+  <Target Name="PostcompileScript" AfterTargets="Build">
+    <Exec Command="dotnet pack --no-build --configuration $(Configuration)" />
+  </Target>
+
+</Project>
